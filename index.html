@@ -30,7 +30,7 @@
       font-size: 0.95rem;
       margin-bottom: 30px;
       color: #888;
-      font-style: italic;
+      font-style: bold;
     }
 
     #jar-container {
@@ -69,7 +69,7 @@
     #cookie-label {
       font-size: 0.85rem;
       color: #777;
-      font-style: italic;
+      font-style: bold;
       display: none;
     }
 
@@ -90,7 +90,7 @@
 
     #fortune-card.visible { display: block; }
 
-    #fortune-text { font-style: italic; margin-bottom: 12px; }
+    #fortune-text { font-style: bold; margin-bottom: 12px; }
 
     #lucky-numbers {
       font-size: 0.8rem;
@@ -140,7 +140,7 @@
 </head>
 <body>
 
-<h1>🥠 Fortune Cookie Jar</h1>
+<h1>Fortune Cookie Jar</h1>
 <p id="subtitle">Click the jar to take a cookie, then crack it open!</p>
 
 <div id="jar-container" title="Click to take a fortune cookie">
@@ -152,7 +152,7 @@
   <div id="cookie-label">Click the cookie to crack it!</div>
 </div>
 
-<div id="loading-msg">✨ Reading your fortune…</div>
+<div id="loading-msg">Reading your fortune…</div>
 <div id="error-msg"></div>
 
 <div id="fortune-card">
@@ -233,7 +233,7 @@
   }
 
   async function getFortune() {
-    const API_KEY = 'YOUR_ANTHROPIC_API_KEY'; // <- replace this
+    const API_KEY = 'apv_6763dc4d-5165-401e-8bf7-fdd76cb60bef'; // <- replace this
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
