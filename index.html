@@ -1,259 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fortune Cookie Jar</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background: #111;
-      color: #ddd;
-      font-family: Georgia, serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      letter-spacing: 2px;
-      color: #eee;
-    }
-
-    #subtitle {
-      font-size: 0.95rem;
-      margin-bottom: 30px;
-      color: #888;
-      font-style: bold;
-    }
-
-    #jar-container {
-      width: 200px;
-      cursor: pointer;
-      margin-bottom: 30px;
-      transition: transform 0.15s;
-    }
-
-    #jar-container:hover { transform: scale(1.04); }
-
-    #jar-container img {
-      width: 100%;
-      display: block;
-    }
-
-    #cookie-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
-      min-height: 90px;
-    }
-
-    #cookie-slot {
-      font-size: 64px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      line-height: 1;
-      display: none;
-    }
-
-    #cookie-slot:hover { transform: scale(1.15) rotate(-5deg); }
-
-    #cookie-label {
-      font-size: 0.85rem;
-      color: #777;
-      font-style: bold;
-      display: none;
-    }
-
-    #fortune-card {
-      display: none;
-      background: #1e1e1e;
-      color: #ddd;
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 20px 28px;
-      max-width: 380px;
-      text-align: center;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-      animation: fadeIn 0.4s ease;
-    }
-
-    #fortune-card.visible { display: block; }
-
-    #fortune-text { font-style: bold; margin-bottom: 12px; }
-
-    #lucky-numbers {
-      font-size: 0.8rem;
-      color: #666;
-      letter-spacing: 2px;
-    }
-
-    #loading-msg {
-      display: none;
-      color: #aaa;
-      font-style: italic;
-    }
-
-    #error-msg {
-      display: none;
-      color: #e05555;
-      font-size: 0.9rem;
-    }
-
-    #get-another-btn {
-      margin-top: 20px;
-      background: transparent;
-      border: 1px solid #555;
-      color: #aaa;
-      padding: 8px 24px;
-      font-family: Georgia, serif;
-      font-size: 0.95rem;
-      cursor: pointer;
-      border-radius: 4px;
-      display: none;
-    }
-    #get-another-btn:hover { border-color: #aaa; color: #eee; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      25%      { transform: translateX(-6px) rotate(-2deg); }
-      75%      { transform: translateX(6px)  rotate(2deg); }
-    }
-
-    .shake { animation: shake 0.35s ease; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Fortune Cookie Jar</title>
+    <style>
+        /* Keeping your original styling */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #111; color: #ddd; font-family: Georgia, serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        h1 { font-size: 2rem; margin-bottom: 8px; letter-spacing: 2px; color: #eee; }
+        #subtitle { font-size: 0.95rem; margin-bottom: 30px; color: #888; font-weight: bold; }
+        #jar-container { width: 200px; cursor: pointer; margin-bottom: 30px; transition: transform 0.15s; }
+        #jar-container:hover { transform: scale(1.04); }
+        #jar-container img { width: 100%; display: block; }
+        #cookie-area { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 20px; min-height: 90px; }
+        #cookie-slot { font-size: 64px; cursor: pointer; transition: transform 0.2s; line-height: 1; display: none; }
+        #cookie-slot:hover { transform: scale(1.15) rotate(-5deg); }
+        #cookie-label { font-size: 0.85rem; color: #777; font-weight: bold; display: none; }
+        #fortune-card { display: none; background: #1e1e1e; color: #ddd; border: 1px solid #444; border-radius: 8px; padding: 20px 28px; max-width: 380px; text-align: center; font-size: 1.1rem; line-height: 1.6; box-shadow: 0 4px 20px rgba(0,0,0,0.6); animation: fadeIn 0.4s ease; }
+        #fortune-card.visible { display: block; }
+        #fortune-text { font-weight: bold; margin-bottom: 12px; }
+        #lucky-numbers { font-size: 0.8rem; color: #666; letter-spacing: 2px; }
+        #loading-msg { display: none; color: #aaa; font-style: italic; }
+        #error-msg { display: none; color: #e05555; font-size: 0.9rem; margin-top: 10px; }
+        #get-another-btn { margin-top: 20px; background: transparent; border: 1px solid #555; color: #aaa; padding: 8px 24px; font-family: Georgia, serif; font-size: 0.95rem; cursor: pointer; border-radius: 4px; display: none; }
+        #get-another-btn:hover { border-color: #aaa; color: #eee; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px) rotate(-2deg); } 75% { transform: translateX(6px) rotate(2deg); } }
+        .shake { animation: shake 0.35s ease; }
+    </style>
 </head>
 <body>
 
-<h1>Fortune Cookie Jar</h1>
-<p id="subtitle">Click the jar to take a cookie, then crack it open!</p>
+    <h1>Fortune Cookie Jar</h1>
+    <p id="subtitle">Click the jar to take a cookie, then crack it open!</p>
 
-<div id="jar-container" title="Click to take a fortune cookie">
-  <img src="jar.png" alt="Cookie Jar" />
-</div>
+    <div id="jar-container" title="Click to take a fortune cookie">
+        <!-- Make sure you have jar.png in your folder or replace this with an emoji if testing locally -->
+        <div style="font-size: 100px;">🏺</div>
+    </div>
 
-<div id="cookie-area">
-  <div id="cookie-slot" title="Click to crack it open!">🥠</div>
-  <div id="cookie-label">Click the cookie to crack it!</div>
-</div>
+    <div id="cookie-area">
+        <div id="cookie-slot" title="Click to crack it open!">🥠</div>
+        <div id="cookie-label">Click the cookie to crack it!</div>
+    </div>
 
-<div id="loading-msg">Reading your fortune…</div>
-<div id="error-msg"></div>
+    <div id="loading-msg">Reading your fortune...</div>
+    <div id="error-msg"></div>
 
-<div id="fortune-card">
-  <div id="fortune-text"></div>
-  <div id="lucky-numbers"></div>
-</div>
+    <div id="fortune-card">
+        <div id="fortune-text"></div>
+        <div id="lucky-numbers"></div>
+    </div>
 
-<button id="get-another-btn" onclick="readyForNext()">Take another cookie</button>
+    <button id="get-another-btn" onclick="readyForNext()">Take another cookie</button>
 
-<script>
-  let state = 'idle'; // 'idle' | 'holding' | 'cracked'
+    <script>
+        let state = 'idle'; 
+        const jarEl = document.getElementById('jar-container');
+        const cookieSlot = document.getElementById('cookie-slot');
+        const cookieLabel = document.getElementById('cookie-label');
+        const card = document.getElementById('fortune-card');
+        const fortuneEl = document.getElementById('fortune-text');
+        const luckyEl = document.getElementById('lucky-numbers');
+        const loadingEl = document.getElementById('loading-msg');
+        const errorEl = document.getElementById('error-msg');
+        const anotherBtn = document.getElementById('get-another-btn');
 
-  const jarEl       = document.getElementById('jar-container');
-  const cookieSlot  = document.getElementById('cookie-slot');
-  const cookieLabel = document.getElementById('cookie-label');
-  const card        = document.getElementById('fortune-card');
-  const fortuneEl   = document.getElementById('fortune-text');
-  const luckyEl     = document.getElementById('lucky-numbers');
-  const loadingEl   = document.getElementById('loading-msg');
-  const errorEl     = document.getElementById('error-msg');
-  const anotherBtn  = document.getElementById('get-another-btn');
+        jarEl.addEventListener('click', () => {
+            if (state === 'holding') {
+                jarEl.classList.add('shake');
+                setTimeout(() => jarEl.classList.remove('shake'), 400);
+                return;
+            }
+            if (state === 'cracked') return;
+            state = 'holding';
+            cookieSlot.textContent = '🥠';
+            cookieSlot.style.display = 'block';
+            cookieSlot.style.cursor = 'pointer';
+            cookieLabel.style.display = 'block';
+            card.classList.remove('visible');
+            errorEl.style.display = 'none';
+            loadingEl.style.display = 'none';
+            anotherBtn.style.display = 'none';
+        });
 
-  jarEl.addEventListener('click', () => {
-    if (state === 'holding') {
-      jarEl.classList.add('shake');
-      setTimeout(() => jarEl.classList.remove('shake'), 400);
-      return;
-    }
-    if (state === 'cracked') return;
+        cookieSlot.addEventListener('click', () => {
+            if (state !== 'holding') return;
+            crackCookie();
+        });
 
-    state = 'holding';
-    cookieSlot.textContent = '🥠';
-    cookieSlot.style.display = 'block';
-    cookieSlot.style.cursor = 'pointer';
-    cookieLabel.style.display = 'block';
-    card.classList.remove('visible');
-    errorEl.style.display = 'none';
-    loadingEl.style.display = 'none';
-    anotherBtn.style.display = 'none';
-  });
+        async function crackCookie() {
+            state = 'cracked';
+            cookieSlot.textContent = '💥🥠';
+            cookieSlot.style.cursor = 'default';
+            cookieLabel.style.display = 'none';
+            loadingEl.style.display = 'block';
+            errorEl.style.display = 'none';
 
-  cookieSlot.addEventListener('click', () => {
-    if (state !== 'holding') return;
-    crackCookie();
-  });
+            try {
+                const fortune = await getFortune();
+                loadingEl.style.display = 'none';
+                fortuneEl.textContent = '"' + fortune + '"';
+                luckyEl.textContent = 'Lucky numbers: ' + Array.from({length: 6}, () => Math.floor(Math.random() * 49) + 1).join(' · ');
+                card.classList.add('visible');
+                anotherBtn.style.display = 'inline-block';
+            } catch (err) {
+                console.error(err);
+                loadingEl.style.display = 'none';
+                errorEl.style.display = 'block';
+                errorEl.textContent = '⚠️ API Error: ' + err.message;
+                anotherBtn.style.display = 'inline-block';
+            }
+        }
 
-  async function crackCookie() {
-    state = 'cracked';
-    cookieSlot.textContent = '💥🥠';
-    cookieSlot.style.cursor = 'default';
-    cookieLabel.style.display = 'none';
-    loadingEl.style.display = 'block';
+        function readyForNext() {
+            state = 'idle';
+            cookieSlot.style.display = 'none';
+            cookieLabel.style.display = 'none';
+            card.classList.remove('visible');
+            errorEl.style.display = 'none';
+            loadingEl.style.display = 'none';
+            anotherBtn.style.display = 'none';
+        }
 
-    try {
-      const fortune = await getFortune();
-      loadingEl.style.display = 'none';
-      fortuneEl.textContent = '"' + fortune + '"';
-      luckyEl.textContent = 'Lucky numbers: ' +
-        Array.from({length: 6}, () => Math.floor(Math.random() * 49) + 1).join(' · ');
-      card.classList.add('visible');
-      anotherBtn.style.display = 'inline-block';
-    } catch (err) {
-      loadingEl.style.display = 'none';
-      errorEl.style.display = 'block';
-      errorEl.textContent = '⚠️ API error — make sure your API key is set in index.html.';
-      anotherBtn.style.display = 'inline-block';
-    }
-  }
+        async function getFortune() {
+            const API_KEY = 'apv_6763dc4d-5165-401e-8bf7-fdd76cb60bef';
+            // Correct APIVerve URL for Fortune Cookie
+            const url = 'https://apiverve.com';
 
-  function readyForNext() {
-    state = 'idle';
-    cookieSlot.style.display = 'none';
-    cookieLabel.style.display = 'none';
-    card.classList.remove('visible');
-    errorEl.style.display = 'none';
-    loadingEl.style.display = 'none';
-    anotherBtn.style.display = 'none';
-  }
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'x-api-key': API_KEY,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-  async function getFortune() {
-    const API_KEY = 'apv_6763dc4d-5165-401e-8bf7-fdd76cb60bef'; // <- replace this
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Request failed');
+            }
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 120,
-        system: 'You are a fortune cookie. Respond with ONLY a single short fortune cookie message (one sentence, max 20 words). No quotes, no explanations, just the fortune itself.',
-        messages: [{ role: 'user', content: 'Give me a fortune.' }]
-      })
-    });
-
-    if (!response.ok) throw new Error('API error: ' + response.status);
-    const data = await response.json();
-    return data.content[0].text.trim();
-  }
-</script>
+            const result = await response.json();
+            // APIVerve returns data in result.data.fortune
+            return result.data.fortune;
+        }
+    </script>
 </body>
 </html>
